@@ -290,6 +290,9 @@ async function dashboard() {
 async function sendSMS() {
   let content = document.getElementById("content").value;
   let number = document.getElementById("numbers").value;
+  document.getElementById("content").disabled = true;
+  document.getElementById("numbers").disabled = true;
+  document.getElementById("paste").disabled = true;
   try {
     let resp = await fetch(API_URL + "/sendsms", {
       method: "POST",
@@ -310,6 +313,10 @@ async function sendSMS() {
     }
   } catch (err) {
     alert("서버 오류입니다. 잠시후에 시도해주세요.");
+  } finally {
+    document.getElementById("content").disabled = false;
+    document.getElementById("numbers").disabled = false;
+    document.getElementById("paste").disabled = false;
   }
 }
 
