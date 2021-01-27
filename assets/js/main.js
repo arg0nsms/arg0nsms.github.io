@@ -1,4 +1,4 @@
-const API_URL = "http://api.argonsms.com/api";
+const API_URL = "https://api.argonsms.com/api";
 const PRICE_PER_SMS = 15;
 
 function sleep(ms) {
@@ -269,9 +269,6 @@ async function dashboard() {
     if (json.success) {
       document.getElementById("total-sms-count").innerText =
         json.totalSMSCount + " 개";
-      document.getElementById("total-user-count").innerText =
-        json.totalUserCount + " 명";
-      document.getElementById("api-count").innerText = json.apiCount + " 개";
       document.getElementById("uptime").innerText = json.uptime + " %";
       document.getElementById("cash").innerText =
         "+ " +
@@ -344,6 +341,22 @@ async function logging() {
         let status = document.createElement("th");
         status.innerText = json[i].status;
         tr.appendChild(status);
+        let success = document.createElement("th");
+        let successBtn = document.createElement("button");
+        successBtn.className = "btn btn-sm btn-primary";
+        successBtn.innerText = "성공로그";
+        successBtn.addEventListener("click", () => {
+          location.href = API_URL + "/raw/" + json[i].num + "/success";
+        });
+        success.appendChild(successBtn);
+        let failureBtn = document.createElement("button");
+        failureBtn.className = "btn btn-sm btn-danger";
+        failureBtn.innerText = "실패로그";
+        failureBtn.addEventListener("click", () => {
+          location.href = API_URL + "/raw/" + json[i].num + "/failure";
+        });
+        success.appendChild(failureBtn);
+        tr.appendChild(success);
         tbody.appendChild(tr);
       }
       document.getElementById("smsSendLoggingBody").remove();
